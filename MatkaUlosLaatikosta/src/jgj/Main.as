@@ -2,6 +2,7 @@ package jgj
 {
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import jgj.engine.Engine;
 	
 	/**
 	 * ...
@@ -20,6 +21,7 @@ package jgj
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			// entry point
+			addChild(new Engine());
 		}
 		
 	}
