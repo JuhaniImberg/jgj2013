@@ -3,7 +3,7 @@ package jgj.engine
 	import org.flixel.*;
 	
 	[SWF(width = "640", height = "480", backgroundColor = "#FBFBFB")]
-	[Frame(factoryClass="Preloader")]
+	[Frame(factoryClass="jgj.engine.Preloader")]
 	
 	/**
 	 * ...
@@ -18,6 +18,8 @@ package jgj.engine
 			
 			FlxG.framerate = 30;
 			FlxG.flashFramerate = 30;
+			
+			
 			
 		}
 	

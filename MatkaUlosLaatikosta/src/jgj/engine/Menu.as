@@ -15,6 +15,8 @@ package jgj.engine
 		
 		override public function create():void
 		{
+						trace("asd");
+
 			FlxG.switchState(new Map(default_auto, auto_tiles, 16, 16));
 		}
 	}

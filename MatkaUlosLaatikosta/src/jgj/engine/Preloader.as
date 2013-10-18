@@ -7,7 +7,7 @@ package jgj.engine
 	{
 		public function Preloader()
 		{
-			className = "Engine";
+			className = "jgj.engine.Engine";
 			super();
 		}
 	}
