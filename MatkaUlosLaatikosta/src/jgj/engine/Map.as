@@ -1,13 +1,12 @@
 package jgj.engine 
 {
-	import flash.display.Sprite;
 	import org.flixel.*;
 	
 	/**
 	 * ...
 	 * @author kivibot
 	 */
-	public class Map extends Sprite
+	public class Map extends FlxState
 	{
 		
 		private var collisionMap:FlxTilemap;
