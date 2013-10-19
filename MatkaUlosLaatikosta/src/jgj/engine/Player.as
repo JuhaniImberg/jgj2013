@@ -12,25 +12,21 @@ package jgj.engine
 		
 		[Embed(source="../../../assets/taapero.png")]
 		private var player_sprite_0:Class;
+		[Embed(source="../../../assets/aikuinen.png")]
+		private var player_sprite_1:Class;
+		[Embed(source="../../../assets/vanhua.png")]
+		private var player_sprite_2:Class;
 		private var _jump:Number;
 		
 		public function Player(x:Number, y:Number, plid:Number)
 		{
 			super(x, y);
 			var img:Class;
-			switch (plid)
-			{
-				case 0: 
-					img = player_sprite_0;
-					break;
-				default: 
-					break;
-			}
-			loadGraphic(img, true, true, 22, 44);
+			var w:Number, h:Number;
 			
 			//bounding box tweaks
-			width = 22;
-			height = 44;
+			width = w;
+			height = h;
 			offset.x = 0;
 			offset.y = 0;
 			
@@ -40,9 +36,36 @@ package jgj.engine
 			maxVelocity.x = 120;
 			maxVelocity.y = 300;
 			
+			switch (plid)
+			{
+				case 0: 
+					img = player_sprite_0;
+					addAnimation("run", [0, 1], 6);
+					w = 22;
+					h = 44;
+					break;
+				case 1: 
+					img = player_sprite_1;
+					addAnimation("run", [0, 1, 2, 3], 6);
+					w = 25;
+					h = 50;
+					break;
+				case 2: 
+					img = player_sprite_2;
+					addAnimation("run", [0, 1], 6);
+					maxVelocity.y = 90;
+					w = 19;
+					h = 35;
+					break;
+				default: 
+					break;
+			}
+			loadGraphic(img, true, true, w, h);
+			
+			
+			
 			//animations
 			addAnimation("idle", [0]);
-			addAnimation("run", [0, 1], 6);
 			addAnimation("jump", [0]);
 		
 		}

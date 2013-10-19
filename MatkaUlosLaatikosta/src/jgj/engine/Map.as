@@ -56,7 +56,7 @@ package jgj.engine
 			loadMap(map_tiles, map_tiles_decor);
 			add(collisionMap);
 			add(decorMap);
-			pl = new Player(0, 0, 0);
+			pl = new Player(0, 0, 2);
 			add(pl);
 			
 			boxman = new BoxManager(pl);
