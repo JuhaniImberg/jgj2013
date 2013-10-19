@@ -14,7 +14,7 @@ package jgj.engine
 		
 		public function Engine():void
 		{
-			super(320, 240, Menu, 2);
+			super(2*320, 2*240, Menu, 1);
 			
 			FlxG.framerate = 30;
 			FlxG.flashFramerate = 30;
