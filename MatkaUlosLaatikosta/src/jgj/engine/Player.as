@@ -12,14 +12,19 @@ package jgj.engine
 		
 		[Embed(source="../../../assets/taapero.png")]
 		private var player_sprite_0:Class;
-		[Embed(source="../../../assets/aikuinen.png")]
+		[Embed(source="../../../assets/teini.png")]
 		private var player_sprite_1:Class;
-		[Embed(source="../../../assets/vanhua.png")]
+		[Embed(source="../../../assets/aikuinen.png")]
 		private var player_sprite_2:Class;
-		private var _jump:Number;
+		[Embed(source="../../../assets/vanhua.png")]
+		private var player_sprite_3:Class;
 		
-		public function Player(x:Number, y:Number, plid:Number)
+		private var _jump:Number;
+		private var parent:EntityManager;
+		
+		public function Player(par:EntityManager, x:Number, y:Number, plid:Number)
 		{
+			parent = par;
 			super(x, y);
 			var img:Class;
 			var w:Number, h:Number;
@@ -40,19 +45,35 @@ package jgj.engine
 			{
 				case 0: 
 					img = player_sprite_0;
-					addAnimation("run", [0, 1], 6);
+					addAnimation("run", [1, 2], 6);
+					addAnimation("idle", [2]);
+					addAnimation("jump", [0]);
+					addAnimation("crouch", [0]);
 					w = 22;
 					h = 44;
 					break;
 				case 1: 
 					img = player_sprite_1;
-					addAnimation("run", [0, 1, 2, 3], 6);
-					w = 25;
-					h = 50;
+					addAnimation("run", [0,2, 3, 4], 6);
+					addAnimation("idle", [0]);
+					addAnimation("jump", [1]);
+					addAnimation("crouch", [1]);
+					w = 20;
+					h = 49;
 					break;
 				case 2: 
 					img = player_sprite_2;
+					addAnimation("run", [1, 2, 3, 4], 6);
+					addAnimation("idle", [2]);
+					addAnimation("jump", [0]);
+					addAnimation("crouch", [0]);
+					w = 25;
+					h = 50;
+					break;
+				case 3: 
+					img = player_sprite_3;
 					addAnimation("run", [0, 1], 6);
+					addAnimation("idle", [2]);
 					maxVelocity.y = 90;
 					w = 19;
 					h = 35;
@@ -61,18 +82,14 @@ package jgj.engine
 					break;
 			}
 			loadGraphic(img, true, true, w, h);
-			
-			
-			
-			//animations
-			addAnimation("idle", [0]);
-			addAnimation("jump", [0]);
 		
 		}
 		
 		override public function update():void
 		{
 			this.acceleration.x = 0;
+			var skip_anim:Boolean = false;
+			
 			if (FlxG.keys.LEFT)
 			{
 				this.facing = FlxObject.LEFT;
@@ -89,6 +106,16 @@ package jgj.engine
 				this.velocity.y = -300;
 				_jump = 1;
 			}
+			if (FlxG.keys.DOWN && _jump == 0)
+			{
+				this.play("crouch");
+				skip_anim = true;
+				offset.y = -5;
+			}
+			else
+			{
+				offset.y = 0;
+			}
 			if (FlxG.keys.justReleased("UP") && _jump == 1)
 			{
 				this.velocity.y /= 2;
@@ -99,19 +126,22 @@ package jgj.engine
 				_jump = 0;
 			}
 			
-			if (this.velocity.y != 0)
+			if (!skip_anim)
 			{
-				this.play("jump");
+				if (this.velocity.y != 0)
+				{
+					this.play("jump");
+				}
+				else if (this.velocity.x == 0)
+				{
+					this.play("idle");
+				}
+				else
+				{
+					this.play("run");
+					parent.emit(x + (width / 2), y + height, 0);
+				}
 			}
-			else if (this.velocity.x == 0)
-			{
-				this.play("idle");
-			}
-			else
-			{
-				this.play("run");
-			}
-			
 			super.update();
 		}
 	

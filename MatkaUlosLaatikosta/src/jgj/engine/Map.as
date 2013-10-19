@@ -28,9 +28,6 @@ package jgj.engine
 		private var map_tiles:Class;
 		private var map_tiles_decor:Class;
 		
-		private var pl:Player;
-		private var boxman:BoxManager;
-		private var bl:Blob;
 		private var em:EntityManager;
 		
 		public function loadMap(map_tiles:Class, map_tiles_decor:Class):void
@@ -58,30 +55,17 @@ package jgj.engine
 			add(collisionMap);
 			add(decorMap);
 			
-			/*pl = new Player(32 * 8, 32 * 12, 0);
-			   add(pl);
-			
-			   boxman = new BoxManager(pl);
-			   add(boxman);
-			
-			   bl = new Blob(32 * 6, 32 * 13, pl);
-			   add(bl);
-			
-			   boxman.addBox(32, 32 * 12);
-			 boxman.addBox(64, 32 * 13);*/
-			
 			em = new EntityManager();
 			add(em);
+			
+			em.addPlayer(32 * 7, 32 * 12, 3);
 			em.addPlayer(32 * 8, 32 * 12, 0);
+			em.addPlayer(32 * 9, 32 * 12, 2);
+			em.addPlayer(32 * 10, 32 * 12, 1);
+			
 			em.addBox(32, 32 * 12);
 			em.addBox(64, 32 * 13);
-			for (var i = 0; i < 1; i++)
-			{
-				for (var j = 0; j < 30; j++)
-				{
-					em.addBlob((j + 1) * 32, (i * 32));
-				}
-			}
+			em.addBlob(32 * 7, 32 * 13);
 			
 			var cam:FlxCamera = new FlxCamera(0, 0, 640, 480);
 			cam.follow(em.getPlayer());
@@ -93,9 +77,7 @@ package jgj.engine
 		override public function update():void
 		{
 			
-			/*FlxG.collide(pl, collisionMap);
-			   FlxG.collide(boxman, collisionMap);
-			 FlxG.collide(bl, collisionMap);*/
+			em.asupdate();
 			FlxG.collide(em, collisionMap);
 			
 			super.update();
