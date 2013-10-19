@@ -11,7 +11,7 @@ package jgj.engine
 		
 		override public function create():void
 		{
-			FlxG.switchState(new Map());
+			FlxG.switchState(new Map(0));
 		}
 	}
 }

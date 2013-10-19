@@ -10,13 +10,13 @@ package jgj.engine
 	{
 		
 		[Embed(source="../../../assets/tileset0.png")]
-		private static var test_map_tiles:Class;
+		private static var map_1_tiles:Class;
 		[Embed(source="../../../assets/tileset0_decor.png")]
-		private static var test_map_tiles_decor:Class;
+		private static var map_1_tiles_decor:Class;
 		[Embed(source="../../../assets/test_map.txt",mimeType='application/octet-stream')]
-		private static var test_map_data:Class;
+		private static var map_1_data:Class;
 		[Embed(source="../../../assets/test_map_decor.txt",mimeType='application/octet-stream')]
-		private static var test_map_data_decor:Class;
+		private static var map_1_data_decor:Class;
 		
 		private var collisionMap:FlxTilemap;
 		private var decorMap:FlxTilemap;
@@ -27,6 +27,7 @@ package jgj.engine
 		private var TILES_DECOR:Class;
 		private var map_tiles:Class;
 		private var map_tiles_decor:Class;
+		private var cam:FlxCamera;
 		
 		private var em:EntityManager;
 		
@@ -36,12 +37,18 @@ package jgj.engine
 			decorMap.loadMap(new map_tiles_decor(), TILES_DECOR, TILE_WIDTH, TILE_HEIGHT, FlxTilemap.OFF);
 		}
 		
-		public function Map()
+		public function Map(i:int)
 		{
-			map_tiles = test_map_data;
-			map_tiles_decor = test_map_data_decor;
-			TILES = test_map_tiles;
-			TILES_DECOR = test_map_tiles_decor;
+			switch (i)
+			{
+				case 0:
+					map_tiles = map_1_data;
+					map_tiles_decor = map_1_data_decor;
+					TILES = map_1_tiles;
+					TILES_DECOR = map_1_tiles_decor;
+					
+			}
+			
 			TILE_WIDTH = 32;
 			TILE_HEIGHT = 32;
 		}
@@ -62,17 +69,17 @@ package jgj.engine
 			em.addBox(64, 32 * 13);
 			em.addBlob(32 * 7, 32 * 13);
 			
-			var cam:FlxCamera = new FlxCamera(0, 0, 640, 480);
+			cam = new FlxCamera(0, 0, 640, 480);
 			cam.follow(em.getPlayer(), FlxCamera.STYLE_PLATFORMER);
 			cam.setBounds(0, 0, collisionMap.width, collisionMap.height, true);
 			
 			cam.bgColor = 0xffAFEEEE;
 			FlxG.addCamera(cam);
+
 		}
 		
 		override public function update():void
 		{
-			
 			em.asupdate();
 			FlxG.collide(em, collisionMap);
 			

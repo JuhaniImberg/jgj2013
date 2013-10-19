@@ -16,7 +16,6 @@ package jgj.engine
 		{
 			super(640, 480, Menu, 1);
 			
-			FlxG.worldBounds = new FlxRect(0, 0, 32 * 32, 32 * 32);
 			FlxG.framerate = 30;
 			FlxG.flashFramerate = 30;
 			

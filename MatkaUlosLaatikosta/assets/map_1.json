@@ -1,0 +1,18 @@
+{
+	"name": "Map 1",
+	"width": 32, 
+	"height": 32,
+	"layers": [
+	
+		"background": [0,0,0....],
+		"collision": [0,0,0....],
+		"foreground": [0,0,0....],
+		"triggers": [0,0,0....]
+
+	],
+	"triggers": [
+		
+		{"id": 0, "type": "player", "enabled": true, "action": {"type": "aktioni tähän", "num": 0, "string": "blah"}}
+	
+	]
+}
