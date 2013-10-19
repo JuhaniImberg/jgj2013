@@ -148,6 +148,16 @@ package jgj.engine
 				addText("Hello world!", 5);
 			}
 			
+			if (FlxG.keys.justPressed("S"))
+			{
+				this.parent.addBox((this.facing == FlxObject.RIGHT?x + width + 16:x - 32 - 16), y + height - 32);
+			}
+			
+			if (FlxG.keys.justPressed("D"))
+			{
+				this.parent.addBlob(x + (width / 2), y - 13); 
+			}
+			
 			if (FlxG.keys.justReleased("UP") && _jump == 1)
 			{
 				this.velocity.y /= 2;

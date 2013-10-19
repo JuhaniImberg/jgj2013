@@ -1,5 +1,6 @@
 package jgj.engine
 {
+	import mx.core.FlexSprite;
 	import org.flixel.*;
 	
 	public class Blob extends FlxSprite
@@ -9,6 +10,7 @@ package jgj.engine
 		
 		private var pl:Player;
 		private var parent:EntityManager;
+		private var line:FlxSprite;
 		
 		public function Blob(par:EntityManager, x:int, y:int, p:Player):void
 		{
@@ -31,6 +33,9 @@ package jgj.engine
 			addAnimation("run", [0, 1], 2);
 			addAnimation("jump", [0, 1], 2);
 		
+		/*line = new FlxSprite(x, y);
+		 line.makeGraphic(256, 256, 0x00000000);*/
+		
 		}
 		
 		override public function draw():void
@@ -40,26 +45,36 @@ package jgj.engine
 		
 		override public function update():void
 		{
-			this.acceleration.x = 0;
+			var target:Number;
+			if (pl.facing == FlxObject.RIGHT)
+			{
+				target = pl.x + pl.width + 32;
+			}
+			else
+			{
+				target = pl.x - 32 - width;
+			}
+			
+			if (Math.abs(target-x) < 300)
+			{
+				this.acceleration.x = 0;
+				
+				if (x < target)
+				{
+					this.acceleration.x += 75 + Math.random() * 150;
+					this.facing = FlxObject.RIGHT;
+				}
+				else if (x > target)
+				{
+					this.acceleration.x -= 75 + Math.random() * 150;
+					this.facing = FlxObject.LEFT;
+				}
+			}
+			
 			if (isTouching(FLOOR))
 			{
 				this.velocity.y = -100 - Math.random() * 200;
 				parent.emit(x + (width / 2), y + (height / 2), 1, 20);
-			}
-			
-			if (x < pl.x)
-			{
-				this.acceleration.x += 75 + Math.random() * 150;
-				this.facing = FlxObject.RIGHT;
-			}
-			else if (x > pl.x)
-			{
-				this.acceleration.x -= 75 + Math.random() * 150;
-				this.facing = FlxObject.LEFT;
-			}
-			else
-			{
-				
 			}
 			
 			if (this.velocity.y != 0)

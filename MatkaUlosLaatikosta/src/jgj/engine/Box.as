@@ -10,6 +10,9 @@ package jgj.engine
 	public class Box extends FlxSprite
 	{
 		
+		[Embed(source="../../../assets/laatikkotile.png")]
+		private var BOX_IMG:Class;
+		
 		private var fall:Boolean;
 		private var parent:EntityManager;
 		
@@ -18,7 +21,8 @@ package jgj.engine
 			parent = par;
 			super(x, y);
 			//loadGraphic(box_0, false, false, 32, 32);
-			makeGraphic(32, 32, 0xFF8B4C39);
+			//makeGraphic(32, 32, 0xFF8B4C39);
+			loadGraphic(BOX_IMG);
 			width = 32;
 			height = 32;
 			offset.x = 0;
