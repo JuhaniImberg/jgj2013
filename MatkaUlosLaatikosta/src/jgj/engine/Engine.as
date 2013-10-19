@@ -2,7 +2,7 @@ package jgj.engine
 {
 	import org.flixel.*;
 	
-	[SWF(width = "640", height = "480", backgroundColor = "#FBFBFB")]
+	[SWF(width = "640", height = "480", backgroundColor = "#000000")]
 	[Frame(factoryClass="jgj.engine.Preloader")]
 	
 	/**

@@ -60,6 +60,7 @@ package jgj.engine
 			var cam:FlxCamera = new FlxCamera(0, 0, 640, FlxG.height);
 			cam.follow(pl);
 			cam.setBounds(0, 0, collisionMap.width, collisionMap.height);
+			cam.bgColor = 0xffAFEEEE;
 			FlxG.addCamera(cam);
 		}
 		
