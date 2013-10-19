@@ -4,10 +4,15 @@ package jgj.engine
 	
 	/**
 	 * ...
-	 * @author kivibot
+	 * @author kivibot & Juhani Imberg
 	 */
 	public class Map extends FlxState
 	{
+		
+		[Embed(source="../../../assets/tileset0.png")]
+		private static var test_map_tiles:Class;
+		[Embed(source="../../../assets/test_map.txt",mimeType='application/octet-stream')]
+		private static var test_map_data:Class;
 		
 		private var collisionMap:FlxTilemap;
 		
@@ -23,14 +28,12 @@ package jgj.engine
 			collisionMap.loadMap(new map_tiles(), TILES, TILE_WIDTH, TILE_HEIGHT, FlxTilemap.OFF);
 		}
 		
-		public function Map(a:Class, tileset:Class, tile_w:Number, tile_h:Number)
+		public function Map()
 		{
-			map_tiles = a;
-			TILES = tileset;
-			TILE_WIDTH = tile_w;
-			TILE_HEIGHT = tile_h;
-			
-			trace("asd");
+			map_tiles = test_map_data;
+			TILES = test_map_tiles;
+			TILE_WIDTH = 32;
+			TILE_HEIGHT = 32;
 		}
 		
 		override public function create():void
@@ -41,10 +44,9 @@ package jgj.engine
 			pl = new Player(0, 0, 0);
 			add(pl);
 			
-			var cam:FlxCamera = new FlxCamera(0, 0, FlxG.width, FlxG.height); 
+			var cam:FlxCamera = new FlxCamera(0, 0, 640, FlxG.height); 
 			cam.follow(pl);
 			cam.setBounds(0, 0, collisionMap.width, collisionMap.height);
-			cam.color = 0xFFCCCC;
 			FlxG.addCamera(cam);
 		}
 		

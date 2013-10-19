@@ -5,13 +5,14 @@ package jgj.engine
 	
 	/**
 	 * ...
-	 * @author kivibot
+	 * @author kivibot & Juhani Imberg
 	 */
 	public class Player extends FlxSprite
 	{
 		
 		[Embed(source="../../../assets/taapero.png")]
 		private var player_sprite_0:Class;
+		private var _jump:Number;
 		
 		public function Player(x:Number, y:Number, plid:Number)
 		{
@@ -27,7 +28,6 @@ package jgj.engine
 			}
 			loadGraphic(img, true, true, 22, 44);
 			
-			
 			//bounding box tweaks
 			width = 22;
 			height = 44;
@@ -36,14 +36,14 @@ package jgj.engine
 			
 			//basic player physics
 			drag.x = 640;
-			acceleration.y = 420;
-			maxVelocity.x = 80;
-			maxVelocity.y = 200;
+			acceleration.y = 600;
+			maxVelocity.x = 120;
+			maxVelocity.y = 300;
 			
 			//animations
 			addAnimation("idle", [0]);
 			addAnimation("run", [0, 1], 6);
-			addAnimation("jump", [4]);
+			addAnimation("jump", [0]);
 		
 		}
 		
@@ -55,15 +55,26 @@ package jgj.engine
 				this.facing = FlxObject.LEFT;
 				this.acceleration.x = -this.drag.x;
 			}
-			if (FlxG.keys.RIGHT)
+			else if (FlxG.keys.RIGHT)
 			{
 				this.facing = FlxObject.RIGHT;
 				this.acceleration.x = this.drag.x;
 			}
-			if (FlxG.keys.UP && this.velocity.y == 0)
+			
+			// mario jump
+			
+			if (_jump == 0 && FlxG.keys.UP)
 			{
-				this.velocity.y = -200;
+				this.velocity.y = -300;
+				_jump = 1;
 			}
+			
+			if (this.isTouching(FLOOR) == true)
+			{
+				_jump = 0;
+			}
+			
+			// end mariojump
 			
 			if (this.velocity.y != 0)
 			{
