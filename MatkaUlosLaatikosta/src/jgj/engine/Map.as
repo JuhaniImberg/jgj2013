@@ -18,7 +18,7 @@ package jgj.engine
 		
 		public function loadMap(map_tiles:Class):void
 		{
-			collisionMap.loadMap(new map_tiles(), TILES, TILE_WIDTH, TILE_HEIGHT, FlxTilemap.AUTO);
+			collisionMap.loadMap(new map_tiles(), TILES, TILE_WIDTH, TILE_HEIGHT, FlxTilemap.OFF);
 		}
 		
 		public function Map(a:Class, tileset:Class, tile_w:Number, tile_h:Number)
