@@ -63,8 +63,9 @@ package jgj.engine
 			em.addBlob(32 * 7, 32 * 13);
 			
 			var cam:FlxCamera = new FlxCamera(0, 0, 640, 480);
-			cam.follow(em.getPlayer());
-			cam.setBounds(0, 0, collisionMap.width, collisionMap.height);
+			cam.follow(em.getPlayer(), FlxCamera.STYLE_PLATFORMER);
+			cam.setBounds(0, 0, collisionMap.width, collisionMap.height, true);
+			
 			cam.bgColor = 0xffAFEEEE;
 			FlxG.addCamera(cam);
 		}

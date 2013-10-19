@@ -14,6 +14,8 @@ package jgj.engine
 		private var player_sprite_0:Class;
 		private var _jump:Number;
 		private var parent:EntityManager;
+		private var text:FlxText;
+		private var timer:Number;
 		
 		public function Player(par:EntityManager, x:Number, y:Number, plid:Number)
 		{
@@ -46,11 +48,34 @@ package jgj.engine
 			addAnimation("idle", [0]);
 			addAnimation("run", [0, 1], 6);
 			addAnimation("jump", [0]);
+			
+			text = new FlxText(x, y, 64);
+			text.text = "";
+			text.color = 0xff000000;
+			text.alignment = "center";
+			parent.add(text);
 		
+		}
+		
+		public function addText(te:String, ti:Number):void
+		{
+			text.text = te;
+			timer = ti;
 		}
 		
 		override public function update():void
 		{
+			if (text.text.length > 0)
+			{
+				timer -= FlxG.elapsed;
+				text.x = x - (width);
+				text.y = y - 20;
+				if (timer < 0)
+				{
+					text.text = "";
+				}
+			}
+			
 			this.acceleration.x = 0;
 			if (FlxG.keys.LEFT)
 			{
@@ -68,6 +93,12 @@ package jgj.engine
 				this.velocity.y = -300;
 				_jump = 1;
 			}
+			
+			if (FlxG.keys.A)
+			{
+				addText("Hello world!", 5);
+			}
+			
 			if (FlxG.keys.justReleased("UP") && _jump == 1)
 			{
 				this.velocity.y /= 2;
@@ -89,7 +120,8 @@ package jgj.engine
 			else
 			{
 				this.play("run");
-				parent.emit(x+(width/2), y+height, 0);
+				
+				parent.emit(x + (width / 2), y + height, 0, 5);
 			}
 			
 			super.update();
