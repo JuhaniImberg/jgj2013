@@ -25,9 +25,9 @@ package jgj.engine
 			maxVelocity.x = 120;
 			maxVelocity.y = 300;
 			
-			addAnimation("idle", [0]);
-			addAnimation("run", [0, 1], 6);
-			addAnimation("jump", [1]);
+			addAnimation("idle", [0, 1], 20);
+			addAnimation("run", [0, 1], 20);
+			addAnimation("jump", [0, 1], 20);
 		
 		}
 		
@@ -41,17 +41,17 @@ package jgj.engine
 			this.acceleration.x = 0;
 			if (isTouching(FLOOR))
 			{
-				this.velocity.y = -100;
+				this.velocity.y = -100 - Math.random() * 200;
 			}
 			
 			if (x < pl.x)
 			{
-				this.acceleration.x = 100;
+				this.acceleration.x += 75 + Math.random() * 150;
 				this.facing = FlxObject.RIGHT;
 			}
 			else if (x > pl.x)
 			{
-				this.acceleration.x = -100;
+				this.acceleration.x -= 75 + Math.random() * 150;
 				this.facing = FlxObject.LEFT;
 			}
 			else

@@ -31,6 +31,7 @@ package jgj.engine
 		private var pl:Player;
 		private var boxman:BoxManager;
 		private var bl:Blob;
+		private var em:EntityManager;
 		
 		public function loadMap(map_tiles:Class, map_tiles_decor:Class):void
 		{
@@ -56,20 +57,34 @@ package jgj.engine
 			loadMap(map_tiles, map_tiles_decor);
 			add(collisionMap);
 			add(decorMap);
-			pl = new Player(0, 0, 0);
-			add(pl);
 			
-			boxman = new BoxManager(pl);
-			add(boxman);
+			/*pl = new Player(32 * 8, 32 * 12, 0);
+			   add(pl);
 			
-			bl = new Blob(32 * 4, 32 * 13, pl);
-			add(bl);
+			   boxman = new BoxManager(pl);
+			   add(boxman);
 			
-			boxman.addBox(32, 32 * 12);
-			boxman.addBox(64, 32 * 13);
+			   bl = new Blob(32 * 6, 32 * 13, pl);
+			   add(bl);
 			
-			var cam:FlxCamera = new FlxCamera(0, 0, 640, FlxG.height);
-			cam.follow(pl);
+			   boxman.addBox(32, 32 * 12);
+			 boxman.addBox(64, 32 * 13);*/
+			
+			em = new EntityManager();
+			add(em);
+			em.addPlayer(32 * 8, 32 * 12, 0);
+			em.addBox(32, 32 * 12);
+			em.addBox(64, 32 * 13);
+			for (var i = 0; i < 30; i++)
+			{
+				for (var j = 0; j < 30; j++)
+				{
+					em.addBlob((j + 1) * 32, (i * 32));
+				}
+			}
+			
+			var cam:FlxCamera = new FlxCamera(0, 0, 640, 480);
+			cam.follow(em.getPlayer());
 			cam.setBounds(0, 0, collisionMap.width, collisionMap.height);
 			cam.bgColor = 0xffAFEEEE;
 			FlxG.addCamera(cam);
@@ -78,9 +93,10 @@ package jgj.engine
 		override public function update():void
 		{
 			
-			FlxG.collide(pl, collisionMap);
-			FlxG.collide(boxman, collisionMap);
-			FlxG.collide(bl, collisionMap);
+			/*FlxG.collide(pl, collisionMap);
+			   FlxG.collide(boxman, collisionMap);
+			 FlxG.collide(bl, collisionMap);*/
+			FlxG.collide(em, collisionMap);
 			
 			super.update();
 		}
