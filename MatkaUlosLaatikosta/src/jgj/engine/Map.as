@@ -30,6 +30,7 @@ package jgj.engine
 		
 		private var pl:Player;
 		private var boxman:BoxManager;
+		private var bl:Blob;
 		
 		public function loadMap(map_tiles:Class, map_tiles_decor:Class):void
 		{
@@ -61,6 +62,9 @@ package jgj.engine
 			boxman = new BoxManager(pl);
 			add(boxman);
 			
+			bl = new Blob(32 * 4, 32 * 13, pl);
+			add(bl);
+			
 			boxman.addBox(32, 32 * 12);
 			boxman.addBox(64, 32 * 13);
 			
@@ -76,6 +80,7 @@ package jgj.engine
 			
 			FlxG.collide(pl, collisionMap);
 			FlxG.collide(boxman, collisionMap);
+			FlxG.collide(bl, collisionMap);
 			
 			super.update();
 		}

@@ -2,7 +2,7 @@ package jgj.engine
 {
 	import org.flixel.*;
 	
-	class BoxManager extends FlxGroup
+	public class BoxManager extends FlxGroup
 	{
 		private var pl:Player;
 		
@@ -20,6 +20,7 @@ package jgj.engine
 		override public function update():void
 		{
 			FlxG.collide(pl, this);
+			FlxG.collide(this, this);
 			super.update();
 		}
 	}

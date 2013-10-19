@@ -26,5 +26,15 @@ package jgj.engine
 			maxVelocity.x = 120;
 			maxVelocity.y = 0;
 		}
+		
+		override public function update():void
+		{
+			super.update();
+			if (isTouching(FLOOR))
+			{
+				this.velocity.y = 0;
+			}
+			
+		}
 	}
 }
