@@ -8,10 +8,14 @@ package jgj.engine
 	 */
 	public class Menu extends FlxState
 	{
+		[Embed(source="../../../assets/box cocer art.png")]
+		private var BG_IMG:Class;
 		
 		override public function create():void
 		{
-			FlxG.switchState(new Map(0));
+			var bg:FlxSprite = new FlxSprite(0, 0, BG_IMG);
+			add(bg);
+			//FlxG.switchState(new Map(0));
 		}
 	}
 }

@@ -32,6 +32,8 @@ package jgj.engine
 			addAnimation("idle", [0, 1], 2);
 			addAnimation("run", [0, 1], 2);
 			addAnimation("jump", [0, 1], 2);
+			
+			//this.color = 0xff*Math.random()+0xff00*Math.random()+0xff0000*Math.random();
 		
 		/*line = new FlxSprite(x, y);
 		 line.makeGraphic(256, 256, 0x00000000);*/
