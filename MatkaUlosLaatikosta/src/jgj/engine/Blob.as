@@ -10,7 +10,7 @@ package jgj.engine
 		
 		private var pl:Player;
 		private var parent:EntityManager;
-		private var line:FlxSprite;
+		/*private var line:FlxSprite;*/
 		
 		public function Blob(par:EntityManager, x:int, y:int, p:Player):void
 		{
@@ -34,7 +34,9 @@ package jgj.engine
 			addAnimation("jump", [0, 1], 20);
 			
 			/*line = new FlxSprite(x, y);
-			line.makeGraphic(256, 256, 0x00000000);*/
+			line.makeGraphic(256, 256, 0xff000000);
+			line.solid = false;
+			parent.add(line);*/
 		
 		}
 		
@@ -89,6 +91,11 @@ package jgj.engine
 			{
 				this.play("run");
 			}
+			
+			/*line.x = Math.min(pl.x, x);
+			line.y = Math.min(pl.y, y);
+			line.fill(0x00000000);
+			line.drawLine(0, 0, x-(pl.x), y-(line.y - pl.y), 0xff000000, 1);*/
 			
 			
 			
