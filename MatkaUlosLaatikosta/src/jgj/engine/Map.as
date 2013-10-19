@@ -16,6 +16,8 @@ package jgj.engine
 		private var TILES:Class;
 		private var map_tiles:Class;
 		
+		private var pl:Player;
+		
 		public function loadMap(map_tiles:Class):void
 		{
 			collisionMap.loadMap(new map_tiles(), TILES, TILE_WIDTH, TILE_HEIGHT, FlxTilemap.OFF);
@@ -36,12 +38,21 @@ package jgj.engine
 			collisionMap = new FlxTilemap();
 			loadMap(map_tiles);
 			add(collisionMap);
+			pl = new Player(0, 0, 0);
+			add(pl);
 			
-			trace(TILE_HEIGHT);
+			var cam:FlxCamera = new FlxCamera(0, 0, FlxG.width, FlxG.height); 
+			cam.follow(pl);
+			cam.setBounds(0, 0, collisionMap.width, collisionMap.height);
+			cam.color = 0xFFCCCC;
+			FlxG.addCamera(cam);
 		}
 		
 		override public function update():void
 		{
+			
+			FlxG.collide(pl, collisionMap);
+			
 			super.update();
 		}
 		
