@@ -8,9 +8,11 @@ package jgj.engine
 		private var blob_sprite:Class;
 		
 		private var pl:Player;
+		private var parent:EntityManager;
 		
-		public function Blob(x:int, y:int, p:Player):void
+		public function Blob(par:EntityManager, x:int, y:int, p:Player):void
 		{
+			parent = par;
 			super(x, y);
 			loadGraphic(blob_sprite, true, true, 23, 13);
 			pl = p;

@@ -13,9 +13,11 @@ package jgj.engine
 		[Embed(source="../../../assets/taapero.png")]
 		private var player_sprite_0:Class;
 		private var _jump:Number;
+		private var parent:EntityManager;
 		
-		public function Player(x:Number, y:Number, plid:Number)
+		public function Player(par:EntityManager, x:Number, y:Number, plid:Number)
 		{
+			parent = par;
 			super(x, y);
 			var img:Class;
 			switch (plid)
@@ -87,6 +89,7 @@ package jgj.engine
 			else
 			{
 				this.play("run");
+				parent.emit(x+(width/2), y+height, 0);
 			}
 			
 			super.update();

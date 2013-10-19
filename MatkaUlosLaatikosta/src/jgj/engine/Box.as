@@ -11,9 +11,11 @@ package jgj.engine
 	{
 		
 		private var fall:Boolean;
+		private var parent:EntityManager;
 		
-		public function Box(x:Number, y:Number):void
+		public function Box(par:EntityManager, x:Number, y:Number):void
 		{
+			parent = par;
 			super(x, y);
 			//loadGraphic(box_0, false, false, 32, 32);
 			makeGraphic(32, 32, 0xFF8B4C39);
@@ -24,7 +26,7 @@ package jgj.engine
 			drag.x = 640;
 			acceleration.y = 600;
 			maxVelocity.x = 120;
-			maxVelocity.y = 0;
+			maxVelocity.y = 300;
 		}
 		
 		override public function update():void
