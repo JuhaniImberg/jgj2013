@@ -21,6 +21,8 @@ package jgj.engine
 		
 		private var _jump:Number;
 		private var parent:EntityManager;
+		private var text:FlxText;
+		private var timer:Number;
 		
 		public function Player(par:EntityManager, x:Number, y:Number, plid:Number)
 		{
@@ -54,7 +56,7 @@ package jgj.engine
 					break;
 				case 1: 
 					img = player_sprite_1;
-					addAnimation("run", [0,2, 3, 4], 6);
+					addAnimation("run", [0, 2, 3, 4], 6);
 					addAnimation("idle", [0]);
 					addAnimation("jump", [1]);
 					addAnimation("crouch", [1]);
@@ -82,11 +84,34 @@ package jgj.engine
 					break;
 			}
 			loadGraphic(img, true, true, w, h);
+			
+			text = new FlxText(x, y, 64);
+			text.text = "";
+			text.color = 0xff000000;
+			text.alignment = "center";
+			parent.add(text);
 		
+		}
+		
+		public function addText(te:String, ti:Number):void
+		{
+			text.text = te;
+			timer = ti;
 		}
 		
 		override public function update():void
 		{
+			if (text.text.length > 0)
+			{
+				timer -= FlxG.elapsed;
+				text.x = x - (width);
+				text.y = y - 20;
+				if (timer < 0)
+				{
+					text.text = "";
+				}
+			}
+			
 			this.acceleration.x = 0;
 			var skip_anim:Boolean = false;
 			
@@ -116,6 +141,12 @@ package jgj.engine
 			{
 				offset.y = 0;
 			}
+			
+			if (FlxG.keys.A)
+			{
+				addText("Hello world!", 5);
+			}
+			
 			if (FlxG.keys.justReleased("UP") && _jump == 1)
 			{
 				this.velocity.y /= 2;
@@ -139,7 +170,8 @@ package jgj.engine
 				else
 				{
 					this.play("run");
-					parent.emit(x + (width / 2), y + height, 0);
+					
+					parent.emit(x + (width / 2), y + height, 0, 5);
 				}
 			}
 			super.update();

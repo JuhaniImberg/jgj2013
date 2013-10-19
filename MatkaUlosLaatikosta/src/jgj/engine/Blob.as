@@ -44,6 +44,7 @@ package jgj.engine
 			if (isTouching(FLOOR))
 			{
 				this.velocity.y = -100 - Math.random() * 200;
+				parent.emit(x + (width / 2), y + (height / 2), 1, 20);
 			}
 			
 			if (x < pl.x)
