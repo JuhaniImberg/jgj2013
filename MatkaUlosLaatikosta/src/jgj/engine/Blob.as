@@ -27,9 +27,9 @@ package jgj.engine
 			maxVelocity.x = 120;
 			maxVelocity.y = 300;
 			
-			addAnimation("idle", [0, 1], 20);
-			addAnimation("run", [0, 1], 20);
-			addAnimation("jump", [0, 1], 20);
+			addAnimation("idle", [0, 1], 2);
+			addAnimation("run", [0, 1], 2);
+			addAnimation("jump", [0, 1], 2);
 		
 		}
 		

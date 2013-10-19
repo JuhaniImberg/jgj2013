@@ -136,6 +136,7 @@ package jgj.engine
 				this.play("crouch");
 				skip_anim = true;
 				offset.y = -5;
+				this.acceleration.x = 0;
 			}
 			else
 			{
