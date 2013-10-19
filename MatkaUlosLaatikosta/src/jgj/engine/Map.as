@@ -57,8 +57,6 @@ package jgj.engine
 			loadMap(map_tiles, map_tiles_decor);
 			add(collisionMap);
 			add(decorMap);
-			pl = new Player(0, 0, 2);
-			add(pl);
 			
 			/*pl = new Player(32 * 8, 32 * 12, 0);
 			   add(pl);
@@ -77,7 +75,7 @@ package jgj.engine
 			em.addPlayer(32 * 8, 32 * 12, 0);
 			em.addBox(32, 32 * 12);
 			em.addBox(64, 32 * 13);
-			for (var i = 0; i < 30; i++)
+			for (var i = 0; i < 1; i++)
 			{
 				for (var j = 0; j < 30; j++)
 				{
