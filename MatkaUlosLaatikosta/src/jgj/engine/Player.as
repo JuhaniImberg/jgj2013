@@ -61,20 +61,20 @@ package jgj.engine
 				this.acceleration.x = this.drag.x;
 			}
 			
-			// mario jump
-			
 			if (_jump == 0 && FlxG.keys.UP)
 			{
 				this.velocity.y = -300;
 				_jump = 1;
+			}
+			if (FlxG.keys.justReleased("UP") && _jump == 1)
+			{
+				this.velocity.y /= 2;
 			}
 			
 			if (this.isTouching(FLOOR) == true)
 			{
 				_jump = 0;
 			}
-			
-			// end mariojump
 			
 			if (this.velocity.y != 0)
 			{

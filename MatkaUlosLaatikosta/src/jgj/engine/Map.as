@@ -22,6 +22,7 @@ package jgj.engine
 		private var map_tiles:Class;
 		
 		private var pl:Player;
+		private var boxman:BoxManager;
 		
 		public function loadMap(map_tiles:Class):void
 		{
@@ -44,7 +45,13 @@ package jgj.engine
 			pl = new Player(0, 0, 0);
 			add(pl);
 			
-			var cam:FlxCamera = new FlxCamera(0, 0, 640, FlxG.height); 
+			boxman = new BoxManager(pl);
+			add(boxman);
+			
+			boxman.addBox(32, 32 * 12);
+			boxman.addBox(64, 32 * 13);
+			
+			var cam:FlxCamera = new FlxCamera(0, 0, 640, FlxG.height);
 			cam.follow(pl);
 			cam.setBounds(0, 0, collisionMap.width, collisionMap.height);
 			FlxG.addCamera(cam);
@@ -54,6 +61,7 @@ package jgj.engine
 		{
 			
 			FlxG.collide(pl, collisionMap);
+			FlxG.collide(boxman, collisionMap);
 			
 			super.update();
 		}
@@ -61,7 +69,6 @@ package jgj.engine
 		public override function draw():void
 		{
 			super.draw();
-			//highlightBox.drawDebug();
 		}
 	
 	}
