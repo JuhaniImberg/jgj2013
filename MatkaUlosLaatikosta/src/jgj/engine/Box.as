@@ -24,8 +24,6 @@ package jgj.engine
 		{
 			parent = par;
 			super(x, y);
-			//loadGraphic(box_0, false, false, 32, 32);
-			//makeGraphic(32, 32, 0xFF8B4C39);
 			loadGraphic(BOX_IMG);
 			width = 32;
 			height = 32;
@@ -41,18 +39,6 @@ package jgj.engine
 		override public function update():void
 		{
 			this.acceleration.x = ar.x;
-			/*if (ar.x != 0 && (isTouching(FLOOR) || kivi_tmp) && this.isTouching(UP))
-			{
-				y = y - y % 32;
-				this.acceleration.y = -660;
-				kivi_tmp = true;
-				
-			}
-			else
-			{
-				this.acceleration.y = 600;
-				kivi_tmp = false;
-			}*/
 			
 			ar.x = 0;
 			super.update();
@@ -63,11 +49,6 @@ package jgj.engine
 				parent.emit(x + (width / 2), y + height, 0, 1);
 				parent.emit(x + (width / 2) + (width / 4), y + height, 0, 1);
 			}
-		
-		/*if (isTouching(FLOOR))
-		   {
-		   this.velocity.y = 0;
-		 }*/
 		
 		}
 	}

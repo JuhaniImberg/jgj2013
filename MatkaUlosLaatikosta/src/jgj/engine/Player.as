@@ -27,6 +27,7 @@ package jgj.engine
 		private var text:FlxText;
 		private var timer:Number;
 		public var type:String = "player";
+		private var wallj:Boolean = false;
 		
 		public function Player(par:EntityManager, x:Number, y:Number, plid:Number)
 		{
@@ -73,6 +74,7 @@ package jgj.engine
 					addAnimation("idle", [2]);
 					addAnimation("jump", [0]);
 					addAnimation("crouch", [0]);
+					wallj = true;
 					w = 25;
 					h = 50;
 					break;
@@ -221,6 +223,22 @@ package jgj.engine
 			if (FlxG.keys.justReleased("UP") && _jump == 1)
 			{
 				this.velocity.y /= 2;
+				if (isTouching(RIGHT) || isTouching(LEFT))
+				{
+					if (wallj == true)
+					{
+						if (isTouching(RIGHT))
+						{
+							this.velocity.x = -500;
+						}
+						else
+						{
+							this.velocity.x = 500;
+						}
+						this.velocity.y = -300;
+						parent.emit(x + (width / 2), y + (height), 2, 60);
+					}
+				}
 			}
 			
 			if (this.isTouching(FLOOR) == true && _jump != 0)
@@ -245,6 +263,7 @@ package jgj.engine
 					parent.emit(x + (width / 2), y + height, 0, 1);
 				}
 			}
+			
 			super.update();
 		}
 	

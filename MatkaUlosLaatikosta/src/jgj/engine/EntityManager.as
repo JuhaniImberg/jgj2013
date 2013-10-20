@@ -55,6 +55,11 @@ package jgj.engine
 						particle.maxVelocity.x = 100;
 						particle.maxVelocity.y = 10;
 						break;
+					case 2:
+						particle.makeGraphic(4, 4, 0xAAACACAC);
+						particle.maxVelocity.x = 10;
+						particle.maxVelocity.y = 100;
+						break;
 					default:
 						break;
 				}
