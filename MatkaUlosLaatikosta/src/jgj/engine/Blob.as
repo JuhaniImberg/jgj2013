@@ -33,11 +33,6 @@ package jgj.engine
 			addAnimation("run", [0, 1], 2);
 			addAnimation("jump", [0, 1], 2);
 			
-			/*line = new FlxSprite(x, y);
-			   line.makeGraphic(256, 256, 0xff000000);
-			   line.solid = false;
-			 parent.add(line);*/
-			
 			color = Math.min(1, FlxG.random() + 0.7) * 0xff + Math.min(1, FlxG.random() + 0.7) * 0xff00 + Math.min(1, FlxG.random() + 0.7) * 0xff0000;
 		
 		}
@@ -74,7 +69,7 @@ package jgj.engine
 			
 			if (isTouching(FLOOR))
 			{
-				this.velocity.y = -100 - Math.random() * 200;
+				this.velocity.y = -150 - Math.random() * 150;
 				parent.emit(x + (width / 2), y + (height), 1, 20);
 			}
 			
@@ -90,10 +85,7 @@ package jgj.engine
 			{
 				this.play("run");
 			}
-			/*line.x = Math.min(pl.x, x);
-			   line.y = Math.min(pl.y, y);
-			   line.fill(0x00000000);
-			 line.drawLine(0, 0, x-(pl.x), y-(line.y - pl.y), 0xff000000, 1);*/
+			
 			super.update();
 		}
 	}
