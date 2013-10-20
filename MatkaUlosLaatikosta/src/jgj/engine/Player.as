@@ -19,6 +19,9 @@ package jgj.engine
 		[Embed(source="../../../assets/vanhua.png")]
 		private var player_sprite_3:Class;
 		
+		[Embed(source = "../../../assets/hyppy.mp3")]
+		private var jump_sound:Class;
+		
 		private var _jump:Number;
 		private var parent:EntityManager;
 		private var text:FlxText;
@@ -131,6 +134,7 @@ package jgj.engine
 			{
 				this.velocity.y = -300;
 				_jump = 1;
+				FlxG.play(jump_sound, 0.5);
 			}
 			if (FlxG.keys.DOWN && _jump == 0)
 			{
