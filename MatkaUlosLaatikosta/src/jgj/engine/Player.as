@@ -184,7 +184,7 @@ package jgj.engine
 				{
 					this.play("run");
 					
-					parent.emit(x + (width / 2), y + height, 0, 5);
+					parent.emit(x + (width / 2), y + height, 0, 1);
 				}
 			}
 			super.update();
