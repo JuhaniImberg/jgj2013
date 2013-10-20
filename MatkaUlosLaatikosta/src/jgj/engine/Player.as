@@ -144,6 +144,61 @@ package jgj.engine
 				offset.y = 0;
 			}
 			
+			if (FlxG.keys.SPACE)
+			{
+				// find nearest box thats infront of us
+				var tmpx:int = 9000;
+				var tmpy:int = 9000;
+				var index:int = -1;
+				
+				for (var i:int = 0; i < parent.members.length; i++)
+				{
+					if (parent.members[i] as Box != null)
+					{
+						if (parent.members[i].y >= y && parent.members[i].y < y + height)
+						{
+							var tmp2x:int = 9000;
+							if (facing == FlxObject.LEFT)
+							{
+								if (parent.members[i].x > x + width)
+								{
+									tmp2x = parent.members[i].x - (x + width);
+								}
+							}
+							else
+							{
+								if (parent.members[i].x+parent.members[i].width < x)
+								{
+									tmp2x = (parent.members[i].x+parent.members[i].width) - x;
+								}
+							}
+							if (Math.abs(tmp2x) < tmpx)
+							{
+								trace(tmp2x);
+								tmpx = tmp2x;
+								index = i;
+							}
+						}
+					}
+				}
+				
+				if (index != -1 && Math.abs(tmpx) < 20)
+				{
+					trace (index);
+					if (FlxG.keys.LEFT)
+					{
+						parent.members[index].ar.x = -this.drag.x;
+					}
+					else if (FlxG.keys.RIGHT)
+					{
+						parent.members[index].ar.x = this.drag.x;
+					}
+				}
+				
+					// pull it
+					// add particle effect under box
+			}
+			
 			if (FlxG.keys.A)
 			{
 				addText("Hello world!", 5);
@@ -151,12 +206,12 @@ package jgj.engine
 			
 			if (FlxG.keys.justPressed("S"))
 			{
-				this.parent.addBox((this.facing == FlxObject.RIGHT?x + width + 16:x - 32 - 16), y + height - 32);
+				this.parent.addBox((this.facing == FlxObject.RIGHT ? x + width + 16 : x - 32 - 16), y + height - 32);
 			}
 			
 			if (FlxG.keys.justPressed("D"))
 			{
-				this.parent.addBlob(x + (width / 2), y - 13); 
+				this.parent.addBlob(x + (width / 2), y - 13);
 			}
 			
 			if (FlxG.keys.justReleased("UP") && _jump == 1)
@@ -167,12 +222,12 @@ package jgj.engine
 			if (this.isTouching(FLOOR) == true && _jump != 0)
 			{
 				_jump = 0;
-				parent.emit(x + (width / 2), y + (height), 1, 20);
+				parent.emit(x + (width / 2), y + (height), 1, 60);
 			}
 			
 			if (!skip_anim)
 			{
-				if (this.velocity.y != 0)
+				if (Math.abs(this.velocity.y) > 5 || _jump == 1)
 				{
 					this.play("jump");
 				}
@@ -184,7 +239,7 @@ package jgj.engine
 				{
 					this.play("run");
 					
-					parent.emit(x + (width / 2), y + height, 0, 5);
+					parent.emit(x + (width / 2), y + height, 0, 15);
 				}
 			}
 			super.update();

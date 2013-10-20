@@ -32,11 +32,13 @@ package jgj.engine
 			addAnimation("idle", [0, 1], 2);
 			addAnimation("run", [0, 1], 2);
 			addAnimation("jump", [0, 1], 2);
-		
-		/*line = new FlxSprite(x, y);
-		   line.makeGraphic(256, 256, 0xff000000);
-		   line.solid = false;
-		 parent.add(line);*/
+			
+			/*line = new FlxSprite(x, y);
+			   line.makeGraphic(256, 256, 0xff000000);
+			   line.solid = false;
+			 parent.add(line);*/
+			
+			color = Math.min(1, FlxG.random() + 0.7) * 0xff + Math.min(1, FlxG.random() + 0.7) * 0xff00 + Math.min(1, FlxG.random() + 0.7) * 0xff0000;
 		
 		}
 		

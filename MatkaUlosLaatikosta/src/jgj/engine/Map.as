@@ -43,6 +43,7 @@ package jgj.engine
 		private var foreground_map:FlxTilemap;
 		private var trigger_map:FlxTilemap;
 		private var triggers:Array;
+		public var id:uint;
 		
 		public function loadMapFromJson(data:String):void
 		{
@@ -66,7 +67,7 @@ package jgj.engine
 			add(collision_map);
 			add(trigger_map);
 			
-			trigger_map.visible = visible;
+			trigger_map.visible = false;
 			
 			em = new EntityManager();
 			add(em);
@@ -117,6 +118,7 @@ package jgj.engine
 			TILES = map_tiles;
 			TILE_WIDTH = 32;
 			TILE_HEIGHT = 32;
+			id = i;
 			switch (i)
 			{
 				case 0:
@@ -190,7 +192,13 @@ package jgj.engine
 				}
 			
 			bg.x = cam.scroll.x-cam.scroll.x/3;
-			bg.y = cam.scroll.y-cam.scroll.y/3;
+			bg.y = cam.scroll.y - cam.scroll.y / 3;
+			
+			if (FlxG.keys.justPressed("R"))
+			{
+				FlxG.switchState(new Map(id));
+			}
+			
 			
 			super.update();
 		}

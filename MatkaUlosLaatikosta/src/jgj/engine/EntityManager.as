@@ -46,12 +46,12 @@ package jgj.engine
 				
 				switch(type) {
 					case 0:
-						particle.makeGraphic(2, 2, 0xff00ff00);
+						particle.makeGraphic(4, 4, 0xAAACACAC);
 						particle.maxVelocity.x = 10;
 						particle.maxVelocity.y = 10;
 						break;
 					case 1:
-						particle.makeGraphic(2, 2, 0xff000000);
+						particle.makeGraphic(4, 4, 0xAAACACAC);
 						particle.maxVelocity.x = 100;
 						particle.maxVelocity.y = 10;
 						break;

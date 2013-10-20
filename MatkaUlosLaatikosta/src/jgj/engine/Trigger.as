@@ -39,9 +39,8 @@ package jgj.engine
 				return;
 			}
 			
-			var xx:Number = (x != -1 ? x : xa);
-			var yy:Number = (y != -1 ? y : ya);
-			trace (y);
+			var xx:Number = (x != -1 ? x*32 : xa);
+			var yy:Number = (y != -1 ? y*32 : ya);
 			
 			switch (action)
 			{
@@ -54,12 +53,19 @@ package jgj.engine
 					case "blob": 
 						em.addBlob(xx, yy);
 						break;
+					case "box":
+						em.addBox(xx, yy);
+						break;
 					default: 
 						break;
 				}
 					break;
 				case "map": 
 					FlxG.switchState(new Map(action_num));
+					break;
+				case "credits":
+					FlxG.switchState(new Credits());
+					break;
 				default: 
 					break;
 			}

@@ -142,8 +142,8 @@
 	"triggers": [
 		
 		{"id": 1, "type": "player", "enabled": true, "fire_once": true, "action": {"type": "message", "num": 5, "string": "Hello world!"}},
-		{"id": 2, "type": "blob", "enabled": true, "fire_once": true, "action": {"type": "spawn", "num": 1, "string": "blob"}},
-		{"id": 3, "type": "player", "enabled": true, "fire_once": true, "action": {"type": "map", "num": 0, "string": "Hello world!"}}
+		{"id": 2, "type": "blob", "enabled": true, "fire_once": true, "action": {"type": "spawn", "num": 1, "string": "box", "x": 30, "y": 29}},
+		{"id": 3, "type": "player", "enabled": true, "fire_once": true, "action": {"type": "credits", "num": 0, "string": "Hello world!"}}
 	
 	],
 	"entities": [
