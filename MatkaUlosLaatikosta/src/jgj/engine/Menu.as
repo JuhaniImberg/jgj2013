@@ -33,7 +33,7 @@ package jgj.engine
 			add(but2);
 			
 			FlxG.mouse.show();
-		//	FlxG.switchState(new Map(1));
+			FlxG.switchState(new Map(1));
 		}
 	}
 }

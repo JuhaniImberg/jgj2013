@@ -2,6 +2,7 @@
 	"name": "Map 3",
 	"width": 32 ,
 	"height": 32 ,
+	"bgid": 3,
 	"layers": [
 	
 		[	
