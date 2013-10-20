@@ -18,6 +18,8 @@ package jgj.engine
 		public var type:String = "box";
 		public var ar:FlxPoint;
 		
+		private var kivi_tmp:Boolean = false;
+		
 		public function Box(par:EntityManager, x:Number, y:Number):void
 		{
 			parent = par;
@@ -38,15 +40,34 @@ package jgj.engine
 		
 		override public function update():void
 		{
-			this.acceleration.x = 0;
 			this.acceleration.x = ar.x;
+			if (ar.x != 0 && (isTouching(FLOOR) || kivi_tmp) && this.isTouching(UP))
+			{
+				this.acceleration.y = -660;
+				kivi_tmp = true;
+				
+			}
+			else
+			{
+				this.acceleration.y = 600;
+				kivi_tmp = false;
+			}
+			
 			ar.x = 0;
 			super.update();
-			/*if (isTouching(FLOOR))
-			{
-				this.velocity.y = 0;
-			}*/
 			
+			if (Math.abs(this.velocity.x) > 1 && isTouching(FLOOR))
+			{
+				parent.emit(x + (width / 2) - (width / 4), y + height, 0, 1);
+				parent.emit(x + (width / 2), y + height, 0, 1);
+				parent.emit(x + (width / 2) + (width / 4), y + height, 0, 1);
+			}
+		
+		/*if (isTouching(FLOOR))
+		   {
+		   this.velocity.y = 0;
+		 }*/
+		
 		}
 	}
 }
