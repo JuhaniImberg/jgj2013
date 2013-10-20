@@ -32,7 +32,7 @@ package jgj.engine
 			action_string = a_s;
 		}
 		
-		public function run(xa:Number, ya:Number, caller:FlxBasic):void
+		public function run(xa:Number, ya:Number, caller:FlxBasic, map:Map):void
 		{
 			if (!enabled)
 			{
@@ -65,6 +65,9 @@ package jgj.engine
 					break;
 				case "credits":
 					FlxG.switchState(new Credits());
+					break;
+				case "settile":
+					map.collision_map.setTile(xx/32, yy/32, action_num);
 					break;
 				default: 
 					break;

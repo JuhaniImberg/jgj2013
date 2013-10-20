@@ -41,8 +41,9 @@ package jgj.engine
 		override public function update():void
 		{
 			this.acceleration.x = ar.x;
-			if (ar.x != 0 && (isTouching(FLOOR) || kivi_tmp) && this.isTouching(UP))
+			/*if (ar.x != 0 && (isTouching(FLOOR) || kivi_tmp) && this.isTouching(UP))
 			{
+				y = y - y % 32;
 				this.acceleration.y = -660;
 				kivi_tmp = true;
 				
@@ -51,7 +52,7 @@ package jgj.engine
 			{
 				this.acceleration.y = 600;
 				kivi_tmp = false;
-			}
+			}*/
 			
 			ar.x = 0;
 			super.update();

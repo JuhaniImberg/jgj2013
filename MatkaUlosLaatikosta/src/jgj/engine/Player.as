@@ -88,7 +88,7 @@ package jgj.engine
 			
 			text = new FlxText(x, y, 64);
 			text.text = "";
-			text.color = 0xff000000;
+			text.color = 0xffFBFBFB;
 			text.alignment = "center";
 			parent.add(text);
 		
@@ -106,7 +106,7 @@ package jgj.engine
 			{
 				timer -= FlxG.elapsed;
 				text.x = x - (width);
-				text.y = y - 20;
+				text.y = y - text.height;
 				if (timer < 0)
 				{
 					text.text = "";

@@ -17,7 +17,6 @@ package jgj.engine
 		[Embed(source="../../../assets/test_map_decor.txt",mimeType='application/octet-stream')]
 		private static var map_1_data_decor:Class;
 		
-
 		[Embed(source="../../../assets/aikuinentausta.png")]
 		private static var bg_2:Class;
 		
@@ -25,6 +24,9 @@ package jgj.engine
 		private static var json_1:Class;
 		[Embed(source="../../../assets/map_2.json",mimeType='application/octet-stream')]
 		private static var json_2:Class;
+		
+		/*[Embed(source = "../../../assets/taso1.mp3")]
+		private static var */
 		
 		private static var json_map:Class;
 		
@@ -38,10 +40,10 @@ package jgj.engine
 		private var bg:FlxSprite;
 		
 		private var em:EntityManager;
-		private var background_map:FlxTilemap;
-		private var collision_map:FlxTilemap;
-		private var foreground_map:FlxTilemap;
-		private var trigger_map:FlxTilemap;
+		public var background_map:FlxTilemap;
+		public var collision_map:FlxTilemap;
+		public var foreground_map:FlxTilemap;
+		public var trigger_map:FlxTilemap;
 		private var triggers:Array;
 		public var id:uint;
 		
@@ -85,7 +87,7 @@ package jgj.engine
 					case "blob": 
 						em.addBlob(tmp2.x * TILE_WIDTH, tmp2.y * TILE_HEIGHT);
 						break;
-					case "box":
+					case "box": 
 						em.addBox(tmp2.x * TILE_WIDTH, tmp2.y * TILE_HEIGHT);
 						break;
 					default: 
@@ -103,7 +105,7 @@ package jgj.engine
 				
 				if (tmp2.action.x != undefined)
 				{
-					trace ("a");
+					trace("a");
 					tmp3.x = tmp2.action.x;
 					tmp3.y = tmp2.action.y;
 				}
@@ -121,13 +123,13 @@ package jgj.engine
 			id = i;
 			switch (i)
 			{
-				case 0:
+				case 0: 
 					json_map = json_1;
 					break;
-				case 1:
+				case 1: 
 					json_map = json_2;
 					break;
-				default:
+				default: 
 					json_map = json_1;
 					break;
 			}
@@ -141,7 +143,6 @@ package jgj.engine
 			bg.loadGraphic(bg_2);
 			add(bg);
 			/* end kivi */
-		
 			
 			loadMapFromJson(new json_map());
 			
@@ -159,46 +160,45 @@ package jgj.engine
 			FlxG.collide(em, collision_map);
 			
 			for (var i:int = 0; i < em.members.length; i++)
+			{
+				if (trigger_map.overlaps(em.members[i]))
 				{
-					if (trigger_map.overlaps(em.members[i]))
+					var xxx:int = em.members[i].x / TILE_WIDTH;
+					var yyy:int = em.members[i].y / TILE_HEIGHT;
+					var zzz:uint = trigger_map.getTile(xxx, yyy);
+					for (var j:int = 0; j < triggers.length; j++)
 					{
-						var xxx:int = em.members[i].x / TILE_WIDTH;
-						var yyy:int = em.members[i].y / TILE_HEIGHT;
-						var zzz:uint = trigger_map.getTile(xxx, yyy);
-						for (var j:int = 0; j < triggers.length; j++)
+						if (triggers[j].id == zzz)
 						{
-							if (triggers[j].id == zzz)
+							switch (triggers[j].type)
 							{
-								switch (triggers[j].type)
-								{
-									case "player":
-										if (em.members[i] as Player != null)
-											triggers[j].run(em.members[i].x, em.members[i].y, em.members[i]);
-										break;
-									case "blob":
-										if (em.members[i] as Blob != null)
-											triggers[j].run(em.members[i].x, em.members[i].y, em.members[i]);
-										break;
-									case "box":
-										if (em.members[i] as Blob != null)
-											triggers[j].run(em.members[i].x, em.members[i].y, em.members[i]);
-										break;
-									default:
-										break;
-								}
+								case "player": 
+									if (em.members[i] as Player != null)
+										triggers[j].run(em.members[i].x, em.members[i].y, em.members[i], this);
+									break;
+								case "blob": 
+									if (em.members[i] as Blob != null)
+										triggers[j].run(em.members[i].x, em.members[i].y, em.members[i], this);
+									break;
+								case "box": 
+									if (em.members[i] as Blob != null)
+										triggers[j].run(em.members[i].x, em.members[i].y, em.members[i], this);
+									break;
+								default: 
+									break;
 							}
 						}
 					}
 				}
+			}
 			
-			bg.x = cam.scroll.x-cam.scroll.x/3;
+			bg.x = cam.scroll.x - cam.scroll.x / 3;
 			bg.y = cam.scroll.y - cam.scroll.y / 3;
 			
 			if (FlxG.keys.justPressed("R"))
 			{
 				FlxG.switchState(new Map(id));
 			}
-			
 			
 			super.update();
 		}
