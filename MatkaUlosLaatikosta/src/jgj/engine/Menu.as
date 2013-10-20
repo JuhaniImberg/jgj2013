@@ -24,6 +24,8 @@ package jgj.engine
 			add(but);
 			
 			FlxG.mouse.show();
+			
+			FlxG.switchState(new Map(0));
 		}
 	}
 }
