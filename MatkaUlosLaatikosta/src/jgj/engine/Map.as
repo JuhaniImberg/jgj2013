@@ -84,7 +84,7 @@ package jgj.engine
 					case "blob": 
 						em.addBlob(tmp2.x * TILE_WIDTH, tmp2.y * TILE_HEIGHT);
 						break;
-					case "box": 
+					case "box":
 						em.addBox(tmp2.x * TILE_WIDTH, tmp2.y * TILE_HEIGHT);
 						break;
 					default: 
@@ -99,6 +99,14 @@ package jgj.engine
 				var tmp2:Object = tmp.triggers[i];
 				var tmp3:Trigger = new Trigger(em, tmp2.id, tmp2.type, tmp2.enabled, tmp2.fire_once);
 				tmp3.setAction(tmp2.action.type, tmp2.action.num, tmp2.action.string);
+				
+				if (tmp2.action.x != undefined)
+				{
+					trace ("a");
+					tmp3.x = tmp2.action.x;
+					tmp3.y = tmp2.action.y;
+				}
+				
 				triggers.push(tmp3);
 			}
 		

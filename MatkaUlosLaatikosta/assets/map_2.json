@@ -147,7 +147,7 @@
 	
 	],
 	"entities": [
-		{"type": "player", "number": 0, "x": 4, "y": 28},
+		{"type": "player", "number": 1, "x": 4, "y": 28},
 		{"type": "blob", "x": 5, "y": 29}
 	]
 }

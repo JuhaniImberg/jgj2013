@@ -11,6 +11,8 @@ package jgj.engine
 		public var action:String;
 		public var action_num:Number;
 		public var action_string:String;
+		public var x:int = -1;
+		public var y:int = -1;
 		
 		private var em:EntityManager;
 		
@@ -30,29 +32,33 @@ package jgj.engine
 			action_string = a_s;
 		}
 		
-		public function run(x:Number, y:Number, caller:FlxBasic):void
+		public function run(xa:Number, ya:Number, caller:FlxBasic):void
 		{
 			if (!enabled)
 			{
 				return;
 			}
 			
+			var xx:Number = (x != -1 ? x : xa);
+			var yy:Number = (y != -1 ? y : ya);
+			trace (y);
+			
 			switch (action)
 			{
-				case "message":
+				case "message": 
 					em.getPlayer().addText(action_string, action_num);
 					break;
-				case "spawn":
+				case "spawn": 
 					switch (action_string)
-					{
-						case "blob":
-							em.addBlob(x, y);
-							break;
-						default:
-							break;
-					}
+				{
+					case "blob": 
+						em.addBlob(xx, yy);
+						break;
+					default: 
+						break;
+				}
 					break;
-				case "map":
+				case "map": 
 					FlxG.switchState(new Map(action_num));
 				default: 
 					break;
@@ -62,7 +68,7 @@ package jgj.engine
 			{
 				enabled = false;
 			}
-			
+		
 		}
 	
 	}

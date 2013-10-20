@@ -141,9 +141,10 @@
 	],
 	"triggers": [
 		
-		{"id": 1, "type": "player", "enabled": true, "fire_once": true, "action": {"type": "message", "num": 5, "string": "Hello world!"}},
-		{"id": 2, "type": "blob", "enabled": true, "fire_once": true, "action": {"type": "spawn", "num": 1, "string": "blob"}},
-		{"id": 3, "type": "player", "enabled": true, "fire_once": true, "action": {"type": "map", "num": 1, "string": "Hello world!"}}
+		{"id": 1, "type": "player", "enabled": true, "fire_once": true, "action": 	{"type": "message", "num": 5, "string": "Hello world!"}},
+		{"id": 2, "type": "blob", "enabled": true, "fire_once": true, "action": 	{"type": "spawn", "num": 1, "string": "blob"}},
+		{"id": 3, "type": "player", "enabled": true, "fire_once": true, "action": 	{"type": "map", "num": 1, "string": "Hello world!"}},
+		{"id": 4, "type": "player", "enabled": true, "fire_once": true, "action":    {"type": "spawn", "num": 1, "string": "box", "x": 16, "y": 16}}
 	
 	],
 	"entities": [
