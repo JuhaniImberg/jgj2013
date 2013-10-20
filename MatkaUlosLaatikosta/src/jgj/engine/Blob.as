@@ -48,6 +48,8 @@ package jgj.engine
 		override public function update():void
 		{
 			var target:Number;
+			this.acceleration.x = 0;
+			
 			if (pl.facing == FlxObject.RIGHT)
 			{
 				target = pl.x + pl.width + 32;
@@ -57,26 +59,21 @@ package jgj.engine
 				target = pl.x - 32 - width;
 			}
 			
-			if (Math.abs(target - x) < 300)
+			if (x < target)
 			{
-				this.acceleration.x = 0;
-				
-				if (x < target)
-				{
-					this.acceleration.x += 75 + Math.random() * 150;
-					this.facing = FlxObject.RIGHT;
-				}
-				else if (x > target)
-				{
-					this.acceleration.x -= 75 + Math.random() * 150;
-					this.facing = FlxObject.LEFT;
-				}
+				this.acceleration.x += 75 + Math.random() * 150;
+				this.facing = FlxObject.RIGHT;
+			}
+			else if (x > target)
+			{
+				this.acceleration.x -= 75 + Math.random() * 150;
+				this.facing = FlxObject.LEFT;
 			}
 			
 			if (isTouching(FLOOR))
 			{
 				this.velocity.y = -100 - Math.random() * 200;
-				parent.emit(x + (width / 2), y + (height / 2), 1, 20);
+				parent.emit(x + (width / 2), y + (height), 1, 20);
 			}
 			
 			if (this.velocity.y != 0)
