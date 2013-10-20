@@ -16,6 +16,7 @@ package jgj.engine
 		private var fall:Boolean;
 		private var parent:EntityManager;
 		public var type:String = "box";
+		public var ar:FlxPoint;
 		
 		public function Box(par:EntityManager, x:Number, y:Number):void
 		{
@@ -32,15 +33,19 @@ package jgj.engine
 			acceleration.y = 600;
 			maxVelocity.x = 120;
 			maxVelocity.y = 300;
+			ar = new FlxPoint(0, 0);
 		}
 		
 		override public function update():void
 		{
+			this.acceleration.x = 0;
+			this.acceleration.x = ar.x;
+			ar.x = 0;
 			super.update();
-			if (isTouching(FLOOR))
+			/*if (isTouching(FLOOR))
 			{
 				this.velocity.y = 0;
-			}
+			}*/
 			
 		}
 	}

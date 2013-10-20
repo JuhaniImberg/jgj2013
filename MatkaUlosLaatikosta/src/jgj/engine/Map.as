@@ -43,6 +43,7 @@ package jgj.engine
 		private var foreground_map:FlxTilemap;
 		private var trigger_map:FlxTilemap;
 		private var triggers:Array;
+		public var id:uint;
 		
 		public function loadMapFromJson(data:String):void
 		{
@@ -66,7 +67,7 @@ package jgj.engine
 			add(collision_map);
 			add(trigger_map);
 			
-			trigger_map.visible = visible;
+			trigger_map.visible = false;
 			
 			em = new EntityManager();
 			add(em);
@@ -84,7 +85,7 @@ package jgj.engine
 					case "blob": 
 						em.addBlob(tmp2.x * TILE_WIDTH, tmp2.y * TILE_HEIGHT);
 						break;
-					case "box": 
+					case "box":
 						em.addBox(tmp2.x * TILE_WIDTH, tmp2.y * TILE_HEIGHT);
 						break;
 					default: 
@@ -99,6 +100,14 @@ package jgj.engine
 				var tmp2:Object = tmp.triggers[i];
 				var tmp3:Trigger = new Trigger(em, tmp2.id, tmp2.type, tmp2.enabled, tmp2.fire_once);
 				tmp3.setAction(tmp2.action.type, tmp2.action.num, tmp2.action.string);
+				
+				if (tmp2.action.x != undefined)
+				{
+					trace ("a");
+					tmp3.x = tmp2.action.x;
+					tmp3.y = tmp2.action.y;
+				}
+				
 				triggers.push(tmp3);
 			}
 		
@@ -109,6 +118,7 @@ package jgj.engine
 			TILES = map_tiles;
 			TILE_WIDTH = 32;
 			TILE_HEIGHT = 32;
+			id = i;
 			switch (i)
 			{
 				case 0:
@@ -182,7 +192,13 @@ package jgj.engine
 				}
 			
 			bg.x = cam.scroll.x-cam.scroll.x/3;
-			bg.y = cam.scroll.y-cam.scroll.y/3;
+			bg.y = cam.scroll.y - cam.scroll.y / 3;
+			
+			if (FlxG.keys.justPressed("R"))
+			{
+				FlxG.switchState(new Map(id));
+			}
+			
 			
 			super.update();
 		}

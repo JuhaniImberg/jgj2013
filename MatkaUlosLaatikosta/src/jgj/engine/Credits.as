@@ -1,13 +1,12 @@
 package jgj.engine
 {
-	import flash.desktop.ClipboardTransferMode;
 	import org.flixel.*;
 	
 	/**
 	 * ...
 	 * @author kivibot & Juhani Imberg
 	 */
-	public class Menu extends FlxState
+	public class Credits extends FlxState
 	{
 		[Embed(source="../../../assets/box cocer art.png")]
 		private var BG_IMG:Class;
@@ -16,14 +15,12 @@ package jgj.engine
 		{
 			var bg:FlxSprite = new FlxSprite(0, 0, BG_IMG);
 			add(bg);
-			var but:FlxButton = new FlxButton(100, 480/2-24, "Start", function():void
-				{
-					FlxG.mouse.hide();
-					FlxG.switchState(new Map(0));
-				});
-			add(but);
 			
-			FlxG.mouse.show();
+			var text:FlxText = new FlxText(0, 480 / 2 - 50, 300, "Credits\n\nJuhani Imberg - Coding\nNicklas Ahlskog - Coding\n");
+			text.color = 0xff000000;
+			text.alignment = "right";
+			text.size = 16;
+			add(text);
 		}
 	}
 }
