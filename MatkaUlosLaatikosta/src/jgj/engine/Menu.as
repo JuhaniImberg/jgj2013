@@ -25,7 +25,7 @@ package jgj.engine
 			
 			FlxG.mouse.show();
 			
-			FlxG.switchState(new Map(0));
+			FlxG.switchState(new Map(1));
 		}
 	}
 }

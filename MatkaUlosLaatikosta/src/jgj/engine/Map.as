@@ -17,8 +17,16 @@ package jgj.engine
 		[Embed(source="../../../assets/test_map_decor.txt",mimeType='application/octet-stream')]
 		private static var map_1_data_decor:Class;
 		
+		
+		[Embed(source="../../../assets/taaperotausta.png")]
+		private static var bg_0:Class;
+		[Embed(source="../../../assets/tainitausta.png")]
+		private static var bg_1:Class;
 		[Embed(source="../../../assets/aikuinentausta.png")]
 		private static var bg_2:Class;
+		[Embed(source="../../../assets/vanhustausta.png")]
+		private static var bg_3:Class;
+		
 		
 		[Embed(source="../../../assets/map_1.json",mimeType='application/octet-stream')]
 		private static var json_1:Class;
@@ -26,7 +34,7 @@ package jgj.engine
 		private static var json_2:Class;
 		
 		/*[Embed(source = "../../../assets/taso1.mp3")]
-		private static var */
+		 private static var */
 		
 		private static var json_map:Class;
 		
@@ -55,16 +63,37 @@ package jgj.engine
 			var height:uint = tmp.height;
 			var name:String = tmp.name;
 			
+			bg = new FlxSprite(0, 0);
+			
 			background_map = new FlxTilemap();
 			collision_map = new FlxTilemap();
 			foreground_map = new FlxTilemap();
 			trigger_map = new FlxTilemap();
+			
+			switch (tmp.bgid)
+			{
+				case 0: 
+					bg.loadGraphic(bg_0);
+					break;
+				case 1: 
+					bg.loadGraphic(bg_1);
+					break;
+				case 2: 
+					bg.loadGraphic(bg_2);
+					break;
+				case 3: 
+					bg.loadGraphic(bg_3);
+					break;
+				default: 
+					trace("bad bgid: " + tmp.bgid);
+			}
 			
 			background_map.loadMap(FlxTilemap.arrayToCSV(tmp.layers[0], width), TILES, TILE_WIDTH, TILE_HEIGHT, FlxTilemap.OFF);
 			collision_map.loadMap(FlxTilemap.arrayToCSV(tmp.layers[1], width), TILES, TILE_WIDTH, TILE_HEIGHT, FlxTilemap.OFF);
 			foreground_map.loadMap(FlxTilemap.arrayToCSV(tmp.layers[2], width), TILES, TILE_WIDTH, TILE_HEIGHT, FlxTilemap.OFF);
 			trigger_map.loadMap(FlxTilemap.arrayToCSV(tmp.layers[3], width), TILES, TILE_WIDTH, TILE_HEIGHT, FlxTilemap.OFF);
 			
+			add(bg);
 			add(background_map);
 			add(collision_map);
 			add(trigger_map);
@@ -137,12 +166,7 @@ package jgj.engine
 		
 		override public function create():void
 		{
-			/* kivi */
-			
-			bg = new FlxSprite(0, 0);
-			bg.loadGraphic(bg_2);
-			add(bg);
-			/* end kivi */
+			FlxG.mouse.hide();
 			
 			loadMapFromJson(new json_map());
 			
@@ -181,7 +205,7 @@ package jgj.engine
 										triggers[j].run(em.members[i].x, em.members[i].y, em.members[i], this);
 									break;
 								case "box": 
-									if (em.members[i] as Blob != null)
+									if (em.members[i] as Box != null)
 										triggers[j].run(em.members[i].x, em.members[i].y, em.members[i], this);
 									break;
 								default: 
@@ -198,6 +222,12 @@ package jgj.engine
 			if (FlxG.keys.justPressed("R"))
 			{
 				FlxG.switchState(new Map(id));
+			}
+			
+			if (FlxG.keys.W) {
+				trigger_map.visible = true;
+			}else {
+				trigger_map.visible = false;
 			}
 			
 			super.update();

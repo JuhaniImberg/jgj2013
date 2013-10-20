@@ -2,6 +2,8 @@
 	"name": "Map 1",
 	"width": 32 ,
 	"height": 32 ,
+	"bgid": 0,
+	"musicid": 0,
 	"layers": [
 	
 		[	
