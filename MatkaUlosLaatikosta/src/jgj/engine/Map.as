@@ -26,6 +26,8 @@ package jgj.engine
 		private static var json_2:Class;
 		[Embed(source="../../../assets/map_3.json",mimeType='application/octet-stream')]
 		private static var json_3:Class;
+		[Embed(source="../../../assets/map_4.json",mimeType='application/octet-stream')]
+		private static var json_4:Class;
 		
 		[Embed(source = "../../../assets/taso1.mp3")]
 		private static var bgm_1:Class;
@@ -143,10 +145,10 @@ package jgj.engine
 					json_map = json_3;
 					FlxG.playMusic(bgm_3, 0.5);
 					break;
-				/*case 3: 
+				case 3: 
 					json_map = json_4;
 					FlxG.playMusic(bgm_4, 0.5);
-					break;*/
+					break;
 				default: 
 					json_map = json_1;
 					break;
