@@ -10,7 +10,7 @@ package jgj.engine
 		
 		private var pl:Player;
 		private var parent:EntityManager;
-		/*private var line:FlxSprite;*/
+		public var type:String = "blob";
 		
 		public function Blob(par:EntityManager, x:int, y:int, p:Player):void
 		{

@@ -12,6 +12,7 @@ package jgj.engine
 		
 		private var fall:Boolean;
 		private var parent:EntityManager;
+		public var type:String = "box";
 		
 		public function Box(par:EntityManager, x:Number, y:Number):void
 		{

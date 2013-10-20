@@ -16,6 +16,7 @@ package jgj.engine
 		private var parent:EntityManager;
 		private var text:FlxText;
 		private var timer:Number;
+		public var type:String = "player";
 		
 		public function Player(par:EntityManager, x:Number, y:Number, plid:Number)
 		{

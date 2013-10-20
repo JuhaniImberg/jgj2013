@@ -19,6 +19,10 @@ package jgj.engine
 		
 		[Embed(source="../../../assets/map_1.json",mimeType='application/octet-stream')]
 		private static var json_1:Class;
+		[Embed(source="../../../assets/map_2.json",mimeType='application/octet-stream')]
+		private static var json_2:Class;
+		
+		private static var json_map:Class;
 		
 		private var collisionMap:FlxTilemap;
 		private var decorMap:FlxTilemap;
@@ -33,6 +37,7 @@ package jgj.engine
 		private var collision_map:FlxTilemap;
 		private var foreground_map:FlxTilemap;
 		private var trigger_map:FlxTilemap;
+		private var triggers:Array;
 		
 		public function loadMapFromJson(data:String):void
 		{
@@ -54,10 +59,14 @@ package jgj.engine
 			
 			add(background_map);
 			add(collision_map);
-			add(foreground_map);
+			add(trigger_map);
+			
+			trigger_map.visible = visible;
 			
 			em = new EntityManager();
 			add(em);
+			
+			add(foreground_map);
 			
 			for (var i:int = 0; i < tmp.entities.length; i++)
 			{
@@ -77,6 +86,16 @@ package jgj.engine
 						break;
 				}
 			}
+			
+			triggers = new Array();
+			
+			for (var i:int = 0; i < tmp.triggers.length; i++)
+			{
+				var tmp2:Object = tmp.triggers[i];
+				var tmp3:Trigger = new Trigger(em, tmp2.id, tmp2.type, tmp2.enabled, tmp2.fire_once);
+				tmp3.setAction(tmp2.action.type, tmp2.action.num, tmp2.action.string);
+				triggers.push(tmp3);
+			}
 		
 		}
 		
@@ -85,11 +104,23 @@ package jgj.engine
 			TILES = map_tiles;
 			TILE_WIDTH = 32;
 			TILE_HEIGHT = 32;
+			switch (i)
+			{
+				case 0:
+					json_map = json_1;
+					break;
+				case 1:
+					json_map = json_2;
+					break;
+				default:
+					json_map = json_1;
+					break;
+			}
 		}
 		
 		override public function create():void
 		{
-			loadMapFromJson(new json_1());
+			loadMapFromJson(new json_map());
 			
 			cam = new FlxCamera(0, 0, 640, 480);
 			cam.follow(em.getPlayer(), FlxCamera.STYLE_PLATFORMER);
@@ -103,6 +134,39 @@ package jgj.engine
 		{
 			em.asupdate();
 			FlxG.collide(em, collision_map);
+			
+			for (var i:int = 0; i < em.members.length; i++)
+				{
+					if (trigger_map.overlaps(em.members[i]))
+					{
+						var xxx:int = em.members[i].x / TILE_WIDTH;
+						var yyy:int = em.members[i].y / TILE_HEIGHT;
+						var zzz:uint = trigger_map.getTile(xxx, yyy);
+						for (var j:int = 0; j < triggers.length; j++)
+						{
+							if (triggers[j].id == zzz)
+							{
+								switch (triggers[j].type)
+								{
+									case "player":
+										if (em.members[i] as Player != null)
+											triggers[j].run(em.members[i].x, em.members[i].y, em.members[i]);
+										break;
+									case "blob":
+										if (em.members[i] as Blob != null)
+											triggers[j].run(em.members[i].x, em.members[i].y, em.members[i]);
+										break;
+									case "box":
+										if (em.members[i] as Blob != null)
+											triggers[j].run(em.members[i].x, em.members[i].y, em.members[i]);
+										break;
+									default:
+										break;
+								}
+							}
+						}
+					}
+				}
 			
 			super.update();
 		}
