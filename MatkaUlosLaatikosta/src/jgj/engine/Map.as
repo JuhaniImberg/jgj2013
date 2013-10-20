@@ -18,6 +18,9 @@ package jgj.engine
 		[Embed(source="../../../assets/test_map_decor.txt",mimeType='application/octet-stream')]
 		private static var map_1_data_decor:Class;
 		
+		[Embed(source="../../../assets/aikuinentausta.png")]
+		private static var bg_2:Class;
+		
 		private var collisionMap:FlxTilemap;
 		private var decorMap:FlxTilemap;
 		
@@ -28,6 +31,7 @@ package jgj.engine
 		private var map_tiles:Class;
 		private var map_tiles_decor:Class;
 		private var cam:FlxCamera;
+		private var bg:FlxSprite;
 		
 		private var em:EntityManager;
 		
@@ -41,12 +45,12 @@ package jgj.engine
 		{
 			switch (i)
 			{
-				case 0:
+				case 0: 
 					map_tiles = map_1_data;
 					map_tiles_decor = map_1_data_decor;
 					TILES = map_1_tiles;
 					TILES_DECOR = map_1_tiles_decor;
-					
+			
 			}
 			
 			TILE_WIDTH = 32;
@@ -55,6 +59,14 @@ package jgj.engine
 		
 		override public function create():void
 		{
+			
+			/* kivi */
+			
+			bg = new FlxSprite(0, 0);
+			bg.loadGraphic(bg_2);
+			add(bg);
+			/* end kivi */
+			
 			collisionMap = new FlxTilemap();
 			decorMap = new FlxTilemap();
 			
@@ -80,13 +92,16 @@ package jgj.engine
 			
 			cam.bgColor = 0xffAFEEEE;
 			FlxG.addCamera(cam);
-
+		
 		}
 		
 		override public function update():void
 		{
 			em.asupdate();
 			FlxG.collide(em, collisionMap);
+			
+			bg.x = cam.scroll.x-cam.scroll.x/3;
+			bg.y = cam.scroll.y-cam.scroll.y/3;
 			
 			super.update();
 		}

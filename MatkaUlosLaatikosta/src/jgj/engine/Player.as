@@ -163,9 +163,10 @@ package jgj.engine
 				this.velocity.y /= 2;
 			}
 			
-			if (this.isTouching(FLOOR) == true)
+			if (this.isTouching(FLOOR) == true && _jump != 0)
 			{
 				_jump = 0;
+				parent.emit(x + (width / 2), y + (height / 2), 1, 20);
 			}
 			
 			if (!skip_anim)
