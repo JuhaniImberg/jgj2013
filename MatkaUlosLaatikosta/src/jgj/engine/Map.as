@@ -9,14 +9,43 @@ package jgj.engine
 	public class Map extends FlxState
 	{
 		
-		[Embed(source="../../../assets/tileset0.png")]
-		private static var test_map_tiles:Class;
-		[Embed(source="../../../assets/tileset0_decor.png")]
-		private static var test_map_tiles_decor:Class;
+		[Embed(source="../../../assets/tile.png")]
+		private static var map_tiles:Class;
+		
 		[Embed(source="../../../assets/test_map.txt",mimeType='application/octet-stream')]
-		private static var test_map_data:Class;
+		private static var map_1_data:Class;
 		[Embed(source="../../../assets/test_map_decor.txt",mimeType='application/octet-stream')]
-		private static var test_map_data_decor:Class;
+		private static var map_1_data_decor:Class;
+		
+		
+		[Embed(source="../../../assets/taaperotausta.png")]
+		private static var bg_0:Class;
+		[Embed(source="../../../assets/tainitausta.png")]
+		private static var bg_1:Class;
+		[Embed(source="../../../assets/aikuinentausta.png")]
+		private static var bg_2:Class;
+		[Embed(source="../../../assets/vanhustausta.png")]
+		private static var bg_3:Class;
+		
+		
+		[Embed(source="../../../assets/map_1.json",mimeType='application/octet-stream')]
+		private static var json_1:Class;
+		[Embed(source="../../../assets/map_2.json",mimeType='application/octet-stream')]
+		private static var json_2:Class;
+
+		[Embed(source="../../../assets/map_3.json",mimeType='application/octet-stream')]
+		private static var json_3:Class;
+		
+		[Embed(source = "../../../assets/taso1.mp3")]
+		private static var bgm_1:Class;
+		[Embed(source = "../../../assets/taso2.mp3")]
+		private static var bgm_2:Class;
+		[Embed(source = "../../../assets/taso3.mp3")]
+		private static var bgm_3:Class;
+		[Embed(source = "../../../assets/taso4.mp3")]
+		private static var bgm_4:Class;
+		
+		private static var json_map:Class;
 		
 		private var collisionMap:FlxTilemap;
 		private var decorMap:FlxTilemap;
@@ -24,57 +53,201 @@ package jgj.engine
 		private var TILE_WIDTH:Number;
 		private var TILE_HEIGHT:Number;
 		private var TILES:Class;
-		private var TILES_DECOR:Class;
-		private var map_tiles:Class;
-		private var map_tiles_decor:Class;
+		private var cam:FlxCamera;
+		private var bg:FlxSprite;
 		
 		private var em:EntityManager;
+		public var background_map:FlxTilemap;
+		public var collision_map:FlxTilemap;
+		public var foreground_map:FlxTilemap;
+		public var trigger_map:FlxTilemap;
+		private var triggers:Array;
+		public var id:uint;
 		
-		public function loadMap(map_tiles:Class, map_tiles_decor:Class):void
+		public function loadMapFromJson(data:String):void
 		{
-			collisionMap.loadMap(new map_tiles(), TILES, TILE_WIDTH, TILE_HEIGHT, FlxTilemap.OFF);
-			decorMap.loadMap(new map_tiles_decor(), TILES_DECOR, TILE_WIDTH, TILE_HEIGHT, FlxTilemap.OFF);
+			
+			var tmp:Object = JSON.parse(data);
+			var width:uint = tmp.width;
+			var height:uint = tmp.height;
+			var name:String = tmp.name;
+			
+			bg = new FlxSprite(0, 0);
+			
+			background_map = new FlxTilemap();
+			collision_map = new FlxTilemap();
+			foreground_map = new FlxTilemap();
+			trigger_map = new FlxTilemap();
+			
+			switch (tmp.bgid)
+			{
+				case 0: 
+					bg.loadGraphic(bg_0);
+					break;
+				case 1: 
+					bg.loadGraphic(bg_1);
+					break;
+				case 2: 
+					bg.loadGraphic(bg_2);
+					break;
+				case 3: 
+					bg.loadGraphic(bg_3);
+					break;
+				default: 
+					trace("bad bgid: " + tmp.bgid);
+			}
+			
+			background_map.loadMap(FlxTilemap.arrayToCSV(tmp.layers[0], width), TILES, TILE_WIDTH, TILE_HEIGHT, FlxTilemap.OFF);
+			collision_map.loadMap(FlxTilemap.arrayToCSV(tmp.layers[1], width), TILES, TILE_WIDTH, TILE_HEIGHT, FlxTilemap.OFF);
+			foreground_map.loadMap(FlxTilemap.arrayToCSV(tmp.layers[2], width), TILES, TILE_WIDTH, TILE_HEIGHT, FlxTilemap.OFF);
+			trigger_map.loadMap(FlxTilemap.arrayToCSV(tmp.layers[3], width), TILES, TILE_WIDTH, TILE_HEIGHT, FlxTilemap.OFF);
+			
+			add(bg);
+			add(background_map);
+			add(collision_map);
+			add(trigger_map);
+			
+			trigger_map.visible = false;
+			
+			em = new EntityManager();
+			add(em);
+			
+			add(foreground_map);
+			
+			for (var i:int = 0; i < tmp.entities.length; i++)
+			{
+				var tmp2:Object = tmp.entities[i];
+				switch (tmp2.type)
+				{
+					case "player": 
+						em.addPlayer(tmp2.x * TILE_WIDTH, tmp2.y * TILE_HEIGHT, tmp2.number);
+						break;
+					case "blob": 
+						em.addBlob(tmp2.x * TILE_WIDTH, tmp2.y * TILE_HEIGHT);
+						break;
+					case "box": 
+						em.addBox(tmp2.x * TILE_WIDTH, tmp2.y * TILE_HEIGHT);
+						break;
+					default: 
+						break;
+				}
+			}
+			
+			triggers = new Array();
+			
+			for (var i:int = 0; i < tmp.triggers.length; i++)
+			{
+				var tmp2:Object = tmp.triggers[i];
+				var tmp3:Trigger = new Trigger(em, tmp2.id, tmp2.type, tmp2.enabled, tmp2.fire_once);
+				tmp3.setAction(tmp2.action.type, tmp2.action.num, tmp2.action.string);
+				
+				if (tmp2.action.x != undefined)
+				{
+					trace("a");
+					tmp3.x = tmp2.action.x;
+					tmp3.y = tmp2.action.y;
+				}
+				
+				triggers.push(tmp3);
+			}
+		
 		}
 		
-		public function Map()
+		public function Map(i:int)
 		{
-			map_tiles = test_map_data;
-			map_tiles_decor = test_map_data_decor;
-			TILES = test_map_tiles;
-			TILES_DECOR = test_map_tiles_decor;
+			TILES = map_tiles;
 			TILE_WIDTH = 32;
 			TILE_HEIGHT = 32;
+			id = i;
+			switch (i)
+			{
+				case 0: 
+					json_map = json_1;
+					FlxG.playMusic(bgm_1, 0.5);
+					break;
+				case 1: 
+					json_map = json_2;
+					FlxG.playMusic(bgm_2, 0.5);
+					break;
+				case 2: 
+					json_map = json_3;
+					FlxG.playMusic(bgm_3, 0.5);
+					break;
+				/*case 3: 
+					json_map = json_4;
+					FlxG.playMusic(bgm_4, 0.5);
+					break;*/
+				default: 
+					json_map = json_1;
+					break;
+			}
 		}
 		
 		override public function create():void
 		{
-			collisionMap = new FlxTilemap();
-			decorMap = new FlxTilemap();
+			FlxG.mouse.hide();
 			
-			loadMap(map_tiles, map_tiles_decor);
-			add(collisionMap);
-			add(decorMap);
+			loadMapFromJson(new json_map());
 			
-			em = new EntityManager();
-			add(em);
-			em.addPlayer(32 * 8, 32 * 12, 0);
-			em.addBox(32, 32 * 12);
-			em.addBox(64, 32 * 13);
-			em.addBlob(32 * 7, 32 * 13);
-			
-			var cam:FlxCamera = new FlxCamera(0, 0, 640, 480);
+			cam = new FlxCamera(0, 0, 640, 480);
 			cam.follow(em.getPlayer(), FlxCamera.STYLE_PLATFORMER);
-			cam.setBounds(0, 0, collisionMap.width, collisionMap.height, true);
-			
+			cam.setBounds(0, 0, collision_map.width, collision_map.height, true);
 			cam.bgColor = 0xffAFEEEE;
 			FlxG.addCamera(cam);
+		
 		}
 		
 		override public function update():void
 		{
-			
 			em.asupdate();
-			FlxG.collide(em, collisionMap);
+			FlxG.collide(em, collision_map);
+			
+			for (var i:int = 0; i < em.members.length; i++)
+			{
+				if (trigger_map.overlaps(em.members[i]))
+				{
+					var xxx:int = em.members[i].x / TILE_WIDTH;
+					var yyy:int = em.members[i].y / TILE_HEIGHT;
+					var zzz:uint = trigger_map.getTile(xxx, yyy);
+					for (var j:int = 0; j < triggers.length; j++)
+					{
+						if (triggers[j].id == zzz)
+						{
+							switch (triggers[j].type)
+							{
+								case "player": 
+									if (em.members[i] as Player != null)
+										triggers[j].run(em.members[i].x, em.members[i].y, em.members[i], this);
+									break;
+								case "blob": 
+									if (em.members[i] as Blob != null)
+										triggers[j].run(em.members[i].x, em.members[i].y, em.members[i], this);
+									break;
+								case "box": 
+									if (em.members[i] as Box != null)
+										triggers[j].run(em.members[i].x, em.members[i].y, em.members[i], this);
+									break;
+								default: 
+									break;
+							}
+						}
+					}
+				}
+			}
+			
+			bg.x = cam.scroll.x - cam.scroll.x / 3;
+			bg.y = cam.scroll.y - cam.scroll.y / 3;
+			
+			if (FlxG.keys.justPressed("R"))
+			{
+				FlxG.switchState(new Map(id));
+			}
+			
+			if (FlxG.keys.W) {
+				trigger_map.visible = true;
+			}else {
+				trigger_map.visible = false;
+			}
 			
 			super.update();
 		}
